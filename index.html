@@ -146,7 +146,7 @@
     <div class="container">
         <div class="envelope-wrapper">
             <div class="envelope">
-                <div class="letter" onclick="redirectToTimeline()">
+                <div class="letter">
                     <div class="text">
                         <strong>Dear mon .</strong>
                         <p>
@@ -159,20 +159,28 @@
         </div>
     </div>
     <script>
+        let timeoutId;
+
         const envelope = document.querySelector('.envelope-wrapper');
         envelope.addEventListener('click', () => {
             envelope.classList.toggle('flap');
-        });
 
-        // Hàm điều hướng đến timeline.html khi nhấn vào thư hoặc ấn phím Space
-        function redirectToTimeline() {
-            window.location.href = 'timeline.html'; // Điều hướng đến timeline.html
-        }
+            // Nếu thư được mở, đặt thời gian tự động chuyển hướng
+            if (envelope.classList.contains('flap')) {
+                timeoutId = setTimeout(() => {
+                    window.location.href = 'timeline.html';
+                }, 5000); // 10 giây
+            } else {
+                // Nếu đóng thư lại, hủy bộ đếm
+                clearTimeout(timeoutId);
+            }
+        });
 
         // Lắng nghe sự kiện nhấn phím
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
-                redirectToTimeline(); // Điều hướng khi nhấn Space
+                // Chuyển hướng ngay lập tức khi nhấn Space
+                window.location.href = 'timeline.html';
             }
         });
     </script>
